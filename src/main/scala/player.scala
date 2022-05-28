@@ -20,7 +20,7 @@ object Player extends Character ("Player.png") {
     def manaRate : Double = {mana.toDouble/manaMax.toDouble}
 
     var drawPile : List[Card] = List(new DamageCard, new DamageCard, new DamageCard, new DamageCard, new DamageCard, 
-                                     new DamageCard, new DamageCard, new DrawCard, new ShieldCard)
+                                     new DamageCard, new DamageCard, new PoisonCard)
     var discardPile : List[Card] = List()
     var hand : List[Card] = List()
     hand.foreach(x => x.location = "Hand")
@@ -78,7 +78,9 @@ object Player extends Character ("Player.png") {
     }
     
     override def endTurn : Unit = {
+        super.endTurn
         hisTurn = false
+        status.put(StrenghtStatus, status.get(StrenghtStatus) + 1)
     }
 
     def win : Unit = {

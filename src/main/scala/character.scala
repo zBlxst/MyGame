@@ -1,5 +1,7 @@
 import java.awt.image.BufferedImage
 import java.awt.{Graphics, Color}
+import java.util.HashMap
+
 
 object Character {
     var allInstances : List[Character] = List()
@@ -8,10 +10,13 @@ object Character {
 class Character (imgName_ : String) {
     var hpMax : Int = -1
     var hp : Int = -1
+    def hpRate : Double = {hp.toDouble / hpMax.toDouble}
 
     var shield : Int = 0
 
-    def hpRate : Double = {hp.toDouble / hpMax.toDouble}
+    var status : HashMap[Status, Int] = new HashMap
+    Status.allInstances.foreach(x => status.put(x, 0)) 
+
     
     var name : String = "Character"
 
@@ -48,7 +53,7 @@ class Character (imgName_ : String) {
 
         if (shield > 0) {
             g.setColor(Color.BLACK)
-            g.drawRect(posX, posX - 60, sizeX, 20)
+            g.drawRect(posX, posY - 60, sizeX, 20)
             g.setColor(Color.LIGHT_GRAY)
             g.fillRect(posX, posY - 60, (sizeX.toDouble * shield.toDouble/hpMax.toDouble).toInt.min(sizeX), 20)
             g.setColor(Color.BLACK)
@@ -71,12 +76,16 @@ class Character (imgName_ : String) {
     def takeDamage (amount : Int) : Unit = {
         shield -= amount
         if (shield < 0) {
-            hp += shield
-            if (hp <= 0) {
-                hp = 0
-                die
-            }
+            loseHp(-shield)
             shield = 0
+        }
+    }
+    
+    def loseHp (amount : Int) : Unit = {
+        hp -= amount
+        if (hp <= 0) {
+            hp = 0
+            die
         }
     }
 
@@ -90,6 +99,7 @@ class Character (imgName_ : String) {
 
     def newTurn : Unit = {
         removeShield
+        Status.allInstances.foreach(x => x.onNewTurn(this))
     }
 
     def removeShield : Unit = {
@@ -97,7 +107,7 @@ class Character (imgName_ : String) {
     }
 
     def endTurn : Unit = {
-
+        Status.allInstances.foreach(x => x.onEndTurn(this))
     }
 
     def resetPos : Unit = {

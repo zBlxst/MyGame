@@ -1,9 +1,10 @@
+import javax.swing.text.Position
 class DamageCard extends AttackCard {
     name = "Damage"
     needsTarget = true
     cost = 1
 
-    var power = 5
+    def power : Int = (5 + Player.status.get(StrenghtStatus))
     
 
     override def whenCasted (target : Character) : Unit = {
@@ -32,5 +33,15 @@ class ShieldCard extends SkillCard {
 
     override def whenCasted : Unit = {
         Player.gainShield(power)
+    }
+}
+
+class PoisonCard extends SkillCard {
+    name = "Poison"
+    needsTarget = true
+    cost = 1
+
+    override def whenCasted (target : Character) : Unit = {
+        target.status.put(PoisonStatus, target.status.get(PoisonStatus) + 5)
     }
 }

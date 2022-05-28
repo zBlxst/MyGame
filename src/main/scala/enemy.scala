@@ -16,7 +16,8 @@ class Enemy (imgName_ : String) extends Character (imgName_) {
         super.newTurn
         doAction
         chooseNextAction
-        TimeUnit.MILLISECONDS.sleep(2000)
+        TimeUnit.MILLISECONDS.sleep(500)
+        super.endTurn
     }
 
     def doAction : Unit = {
