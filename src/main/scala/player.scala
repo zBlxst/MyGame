@@ -1,5 +1,6 @@
 import java.awt.Graphics
 import java.util.concurrent.TimeUnit
+import java.awt.Color
 object Player extends Character ("Player.png") {
     posX = 200
     posY = 200
@@ -12,6 +13,11 @@ object Player extends Character ("Player.png") {
 
     var playing : Boolean = false
     var hisTurn : Boolean = false
+
+    var manaMax : Int = 3
+    var mana : Int = 0
+
+    def manaRate : Double = {mana.toDouble/manaMax.toDouble}
 
     var drawPile : List[Card] = List(new Damage, new Damage, new Damage, new Damage, new Damage, new Damage, new Damage, new Draw)
     var discardPile : List[Card] = List()
@@ -34,15 +40,36 @@ object Player extends Character ("Player.png") {
 
     override def display (g : Graphics) : Unit = {
         super.display(g)
+        g.setColor(Color.BLACK)
+        g.drawRect(posX, posY + sizeY + 20, sizeX, 20)
+        g.setColor(Color.CYAN)
+        g.fillRect(posX, posY + sizeY + 20, (sizeX.toDouble*manaRate).toInt, 20)
+
+
+        g.setColor(Color.BLACK)
+        var metrics = g.getFontMetrics
+        var text = mana.toString + "/" + manaMax.toString
+        var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
+        var strY = posY +sizeY + 30 - metrics.getHeight/2 + metrics.getAscent
+        g.drawString(text, strX, strY)
+
         hand.foreach(x => x.display(g))
         discardPile.foreach(x => x.display(g))
         drawPile.foreach(x => x.display(g))
+
+
+
+    }
+
+    def loseMana (amount : Int) : Unit = {
+        mana -= amount
     }
 
     override def newTurn : Unit = {
         hisTurn = true
         hand.foreach(x => x.whenDiscarded)
         drawCards
+        mana = manaMax
         while (hisTurn) {
             TimeUnit.MILLISECONDS.sleep(100)
         }

@@ -1,20 +1,42 @@
 class Card (imgName_ : String) extends DragableButton (0, 0, 100, 125, imgName_) {
     var name : String = "Card"
     var needsTarget : Boolean = false
-    var angle : Double = 0
+    var cost : Int = 0
+
+    //var angle : Double = 0
 
     var location : String = "DrawPile"
 
     img = Utils.resize(img, sizeX, sizeY)
     
     def cast (target : Character) : Unit = {
-        println("Casting " + name + " on " + target.name)
-        afterCast
+        if (cost <= Player.mana) {
+            Player.loseMana(cost)
+            println("Casting " + name + " on " + target.name)
+            whenCasted(target)
+            afterCast
+        } else {
+            resetPos
+        }
     }
 
     def cast : Unit = {
-        println("Casting " + name)
-        afterCast
+        if (cost <= Player.mana) {
+            Player.loseMana(cost)
+            println("Casting " + name)
+            whenCasted
+            afterCast
+        } else {
+            resetPos
+        }
+    }
+
+    def whenCasted : Unit = {
+
+    }
+
+    def whenCasted (target : Character) = {
+
     }
 
     def afterCast : Unit = {

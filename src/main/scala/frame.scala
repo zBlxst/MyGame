@@ -6,7 +6,7 @@ object MyFrame extends JFrame {
     var posX : Int = 100
     var posY : Int = 100
 
-    var sizeX : Int = 1300
+    var sizeX : Int = 1500
     var sizeY : Int = 900
 
     def initialise : Unit = {

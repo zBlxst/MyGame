@@ -31,10 +31,18 @@ class Character (imgName_ : String) {
 
     def display (g : Graphics) : Unit = {
         g.drawImage(img, posX, posY, sizeX, sizeY, null)
+
         g.setColor(Color.BLACK)
         g.drawRect(posX, posY - 40, sizeX, 20)
         g.setColor(Color.GREEN)
         g.fillRect(posX, posY - 40, (sizeX.toDouble * hpRate).toInt, 20)
+        g.setColor(Color.BLACK)
+
+        var metrics = g.getFontMetrics
+        var text = hp.toString + "/" + hpMax.toString
+        var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
+        var strY = posY - 30 - metrics.getHeight/2 + metrics.getAscent
+        g.drawString(text, strX, strY)
     }
 
     def dealDamage (amount : Int, target : Character) : Unit = {
