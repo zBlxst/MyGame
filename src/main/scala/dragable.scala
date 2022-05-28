@@ -1,4 +1,5 @@
-trait Dragable {
+import java.awt.Graphics
+trait Dragable extends Interactable {
     var posX : Int
     var posY : Int
 
@@ -12,16 +13,23 @@ trait Dragable {
         startX = dragX - posX
         startY = dragY - posY
     }
+
     def endDrag (dragX : Int, dragY : Int) : Unit = {
         startX = -1
         startY = -1
     }
+
     def drag (dragX : Int, dragY : Int) : Unit = {
         posX = dragX - startX
         posY = dragY - startY
     }
 
+
     def isItPressed (mouseX : Int, mouseY : Int) : Boolean = {
-        mouseX >= posX && mouseX <= posX + sizeX && mouseY >= posY && mouseY <= posY + sizeY 
+        mouseX >= posX && mouseX <= posX + sizeX && mouseY >= posY && mouseY <= posY + sizeY && interactable
     }
+}
+
+trait Interactable {
+    var interactable : Boolean = true
 }

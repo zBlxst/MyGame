@@ -1,15 +1,23 @@
 import java.awt.{Graphics, Toolkit}
+import java.awt.image.BufferedImage
 
 
-abstract class MyButton (posX_ : Int, posY_ : Int, sizeX_ : Int, sizeY_ : Int) {
+abstract class MyButton (posX_ : Int, posY_ : Int, sizeX_ : Int, sizeY_ : Int, imgName_ : String) extends Object with Interactable {
     var posX : Int = posX_
     var posY : Int = posY_
 
     var sizeX : Int = sizeX_
     var sizeY : Int = sizeY_
 
+    var imgName : String = imgName_
+    var img : BufferedImage = Utils.loadImage(imgName)
+
+    def initialise : Unit = {
+
+    }
+
     def isItClicked (mouseX : Int, mouseY : Int) : Boolean = {
-        mouseX >= posX && mouseX <= posX + sizeX && mouseY >= posY && mouseY <= posY + sizeY 
+        mouseX >= posX && mouseX <= posX + sizeX && mouseY >= posY && mouseY <= posY + sizeY && interactable
     }
 
     def clickAction : Unit = {
@@ -17,15 +25,20 @@ abstract class MyButton (posX_ : Int, posY_ : Int, sizeX_ : Int, sizeY_ : Int) {
     }
 
     def display (g : Graphics) {
-        g.fillRect(posX, posY, sizeX, sizeY)
+        if (imgName == "") {
+            g.fillRect(posX, posY, sizeX, sizeY)
+        } else {
+            g.drawImage(img, posX, posY, null)
+        }
     }
 }
 
-class DragableButton (posX_ : Int, posY_ : Int, sizeX_ : Int, sizeY_ : Int) extends MyButton (posX_, posY_, sizeX_, sizeY_) with Dragable {
+class DragableButton (posX_ : Int, posY_ : Int, sizeX_ : Int, sizeY_ : Int, imgName_ : String) extends MyButton (posX_, posY_, sizeX_, sizeY_, imgName_) 
+    with Dragable {
     
 }
 
-object TopBar extends DragableButton (0, 0, 0, 0) {
+object TopBar extends DragableButton (0, 0, 0, 0, "") {
 
     var frameOriginalX : Int = -1
     var frameOriginalY : Int = -1
@@ -54,3 +67,14 @@ object TopBar extends DragableButton (0, 0, 0, 0) {
     }
 }
 
+object EndTurnButton extends MyButton (0, 0, 200, 50, "") {
+    
+    override def initialise : Unit = {
+        posX = (MyFrame.sizeX - sizeX)/2
+        posY = MyFrame.sizeY - 3*(new Card("")).sizeY - sizeY
+    }
+
+    override def clickAction : Unit = {
+        Player.endTurn
+    }
+}

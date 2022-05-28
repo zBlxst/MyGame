@@ -24,6 +24,8 @@ abstract class MyPanel extends JPanel with MouseListener with MouseMotionListene
         addMouseListener(this)
         addMouseMotionListener(this)
 
+        buttonList.foreach(x => x.initialise)
+
         setVisible(true)
     }
 

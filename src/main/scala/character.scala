@@ -1,5 +1,5 @@
 import java.awt.image.BufferedImage
-import java.awt.Graphics
+import java.awt.{Graphics, Color}
 
 object Character {
     var allInstances : List[Character] = List()
@@ -8,6 +8,8 @@ object Character {
 class Character (imgName_ : String) {
     var hpMax : Int = -1
     var hp : Int = -1
+
+    def hpRate : Double = {hp.toDouble / hpMax.toDouble}
     
     var name : String = "Character"
 
@@ -24,11 +26,19 @@ class Character (imgName_ : String) {
     Character.allInstances = this :: Character.allInstances
 
     def initialise : Unit = {
-        
+        img = Utils.resize(img, sizeX, sizeY)
     }
 
     def display (g : Graphics) : Unit = {
         g.drawImage(img, posX, posY, sizeX, sizeY, null)
+        g.setColor(Color.BLACK)
+        g.drawRect(posX, posY - 40, sizeX, 20)
+        g.setColor(Color.GREEN)
+        g.fillRect(posX, posY - 40, (sizeX.toDouble * hpRate).toInt, 20)
+    }
+
+    def dealDamage (amount : Int, target : Character) : Unit = {
+        target.takeDamage(amount)
     }
 
     def takeDamage (amount : Int) : Unit = {
@@ -40,6 +50,18 @@ class Character (imgName_ : String) {
     }
 
     def die : Unit = {
+
+    }
+
+    def newTurn : Unit = {
+
+    }
+
+    def endTurn : Unit = {
+
+    }
+
+    def resetPos : Unit = {
 
     }
 }
