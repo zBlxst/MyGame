@@ -9,6 +9,8 @@ class Character (imgName_ : String) {
     var hpMax : Int = -1
     var hp : Int = -1
 
+    var shield : Int = 0
+
     def hpRate : Double = {hp.toDouble / hpMax.toDouble}
     
     var name : String = "Character"
@@ -43,6 +45,23 @@ class Character (imgName_ : String) {
         var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
         var strY = posY - 30 - metrics.getHeight/2 + metrics.getAscent
         g.drawString(text, strX, strY)
+
+        if (shield > 0) {
+            g.setColor(Color.BLACK)
+            g.drawRect(posX, posX - 60, sizeX, 20)
+            g.setColor(Color.LIGHT_GRAY)
+            g.fillRect(posX, posY - 60, (sizeX.toDouble * shield.toDouble/hpMax.toDouble).toInt.min(sizeX), 20)
+            g.setColor(Color.BLACK)
+
+            var metrics = g.getFontMetrics
+            var text = "Shield : " + shield.toString
+            var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
+            var strY = posY - 50 - metrics.getHeight/2 + metrics.getAscent
+            g.drawString(text, strX, strY)
+        }
+
+
+
     }
 
     def dealDamage (amount : Int, target : Character) : Unit = {
@@ -50,11 +69,19 @@ class Character (imgName_ : String) {
     }
 
     def takeDamage (amount : Int) : Unit = {
-        hp -= amount
-        if (hp <= 0) {
-            hp = 0
-            die
+        shield -= amount
+        if (shield < 0) {
+            hp += shield
+            if (hp <= 0) {
+                hp = 0
+                die
+            }
+            shield = 0
         }
+    }
+
+    def gainShield (amount : Int) : Unit = {
+        shield += amount
     }
 
     def die : Unit = {
@@ -62,7 +89,11 @@ class Character (imgName_ : String) {
     }
 
     def newTurn : Unit = {
+        removeShield
+    }
 
+    def removeShield : Unit = {
+        shield = 0
     }
 
     def endTurn : Unit = {
