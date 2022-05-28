@@ -5,9 +5,9 @@ import java.awt.event.MouseEvent
 import java.awt.event.MouseMotionListener
 
 
-object MainPane extends MyPanel {
+object MainPanel extends MyPanel {
 
-    buttonList = List.concat(buttonList, List(new DragableButton(50, 50, 50, 50)))
+    buttonList = List.concat(buttonList, List(new Card))
     dragableList = List.concat(dragableList, List(buttonList(1).asInstanceOf[Dragable]))
 
     

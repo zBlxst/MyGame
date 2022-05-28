@@ -18,8 +18,8 @@ object MyFrame extends JFrame {
 
         TopBar.initialise(sizeX, 50)
 
-        MainPane.initialise
-        setContentPane(MainPane)
+        BattlePanel.initialise
+        setContentPane(BattlePanel)
 
         Repainter.start
     }
