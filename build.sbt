@@ -1,4 +1,4 @@
 lazy val root = (project in file(".")).
     settings(
-        name := "Click"
+        name := "Card"
     )

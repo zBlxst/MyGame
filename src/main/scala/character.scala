@@ -1,6 +1,7 @@
 import java.awt.image.BufferedImage
 import java.awt.{Graphics, Color}
 import java.util.HashMap
+import java.awt.Font
 
 
 object Character {
@@ -43,8 +44,9 @@ class Character (imgName_ : String) {
         g.drawRect(posX, posY - 40, sizeX, 20)
         g.setColor(Color.GREEN)
         g.fillRect(posX, posY - 40, (sizeX.toDouble * hpRate).toInt, 20)
+        
         g.setColor(Color.BLACK)
-
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 16))
         var metrics = g.getFontMetrics
         var text = hp.toString + "/" + hpMax.toString
         var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
@@ -56,8 +58,9 @@ class Character (imgName_ : String) {
             g.drawRect(posX, posY - 60, sizeX, 20)
             g.setColor(Color.LIGHT_GRAY)
             g.fillRect(posX, posY - 60, (sizeX.toDouble * shield.toDouble/hpMax.toDouble).toInt.min(sizeX), 20)
+            
             g.setColor(Color.BLACK)
-
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 16))
             var metrics = g.getFontMetrics
             var text = "Shield : " + shield.toString
             var strX = posX + sizeX/2 - metrics.stringWidth(text)/2

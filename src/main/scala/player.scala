@@ -1,6 +1,7 @@
 import java.awt.Graphics
 import java.util.concurrent.TimeUnit
 import java.awt.Color
+import java.awt.Font
 object Player extends Character ("Player.png") {
     posX = 200
     posY = 200
@@ -36,6 +37,8 @@ object Player extends Character ("Player.png") {
         discardPile.foreach(x => x.interactable = false)
         drawPile.foreach(x => x.interactable = false)
 
+        allCards.foreach(x => x.initialise)
+
         playing = true
     }
 
@@ -48,6 +51,7 @@ object Player extends Character ("Player.png") {
 
 
         g.setColor(Color.BLACK)
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 16))
         var metrics = g.getFontMetrics
         var text = mana.toString + "/" + manaMax.toString
         var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
@@ -80,7 +84,7 @@ object Player extends Character ("Player.png") {
     override def endTurn : Unit = {
         super.endTurn
         hisTurn = false
-        status.put(StrenghtStatus, status.get(StrenghtStatus) + 1)
+        status.put(StrengthStatus, status.get(StrengthStatus) + 1)
     }
 
     def win : Unit = {

@@ -3,11 +3,11 @@ import java.awt._
 import javax.swing._
 
 object MyFrame extends JFrame {
-    var posX : Int = 100
-    var posY : Int = 100
+    var posX : Int = 0
+    var posY : Int = 0
 
-    var sizeX : Int = 1500
-    var sizeY : Int = 900
+    var sizeX : Int = 1920
+    var sizeY : Int = 1080
 
     def initialise : Unit = {
         setSize(sizeX, sizeY)

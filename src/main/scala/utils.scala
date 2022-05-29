@@ -15,28 +15,32 @@ object Utils {
     }
 
     def resize (img : BufferedImage, newW : Int, newH : Int) : BufferedImage = { 
-        var tmp : Image = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH)
-        var dimg : BufferedImage = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB)
-
-        var g2d : Graphics2D = dimg.createGraphics()
-        g2d.drawImage(tmp, 0, 0, null)
-        g2d.dispose()
-
-        return dimg
+        if (newW == 0 || newH == 0) {
+            img 
+        } else {
+            var tmp : Image = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH)
+            var dimg : BufferedImage = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB)
+    
+            var g2d : Graphics2D = dimg.createGraphics()
+            g2d.drawImage(tmp, 0, 0, null)
+            g2d.dispose()
+    
+            dimg
+        }
     }
 
-    def rotate(bimg : BufferedImage , angle : Double) : BufferedImage = {
+    def cutString (s : String, charPerLine : Int) : List[String] = {
+        if (s.length <= charPerLine) {
+            List(s)
+        } else {
+            var l = s.substring(0, charPerLine).lastIndexOf(" ")
+            var text1 = s.substring(0, l)
+            var text2 = s.substring(l+1)
+            text1 :: cutString(text2, charPerLine)
+            
+        }
+}
 
-        var w : Int = bimg.getWidth();    
-        var h : Int = bimg.getHeight();
-
-        var rotated : BufferedImage = new BufferedImage(w, h, bimg.getType());  
-        var graphic : Graphics2D = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w/2, h/2);
-        graphic.drawImage(bimg, null, 0, 0);
-        graphic.dispose();
-        return rotated;
-    }
         
     def firstSatisfiedList[T] (li : List[T], f : T => Boolean) : Int = {
         for (i <- 0 until li.size) {

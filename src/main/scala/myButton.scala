@@ -13,7 +13,9 @@ abstract class MyButton (posX_ : Int, posY_ : Int, sizeX_ : Int, sizeY_ : Int, i
     var img : BufferedImage = Utils.loadImage(imgName)
 
     def initialise : Unit = {
-
+        if (imgName != "") {
+            img = Utils.resize(img, sizeX, sizeY)
+        }
     }
 
     def isItClicked (mouseX : Int, mouseY : Int) : Boolean = {
@@ -71,7 +73,7 @@ object EndTurnButton extends MyButton (0, 0, 200, 50, "") {
     
     override def initialise : Unit = {
         posX = (MyFrame.sizeX - sizeX)/2
-        posY = MyFrame.sizeY - 3*(new Card("")).sizeY - sizeY
+        posY = 2*MyFrame.sizeY/3 - sizeY
     }
 
     override def clickAction : Unit = {
