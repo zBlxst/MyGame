@@ -6,6 +6,7 @@ class Battle extends Thread {
         Player.initialise
         enemies = List(Enemy1, Enemy2)
         enemies.foreach(x => x.initialise)
+        Status.allInstances.foreach(x => x.initialise)
     }
 
 

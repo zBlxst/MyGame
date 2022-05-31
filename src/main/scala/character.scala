@@ -3,9 +3,11 @@ import java.awt.{Graphics, Color}
 import java.util.HashMap
 import java.awt.Font
 
+import com.sun.tools.javac.util.ListBuffer
+
 
 object Character {
-    var allInstances : List[Character] = List()
+    var allInstances : List[Character] = List(Enemy1, Enemy2)
 }
 
 class Character (imgName_ : String) {
@@ -29,9 +31,6 @@ class Character (imgName_ : String) {
 
     var imgName : String = imgName_
     var img : BufferedImage = Utils.loadImage(imgName)
-
-
-    Character.allInstances = this :: Character.allInstances
 
     def initialise : Unit = {
         img = Utils.resize(img, sizeX, sizeY)
@@ -66,6 +65,19 @@ class Character (imgName_ : String) {
             var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
             var strY = posY - 50 - metrics.getHeight/2 + metrics.getAscent
             g.drawString(text, strX, strY)
+        }
+
+        var countStatus = 0
+        for (i <- 0 until Status.allInstances.length) {
+            var stat = Status.allInstances(i)
+            var amount = status.get(stat)
+            if (amount > 0) {
+                var img = stat.img
+                var iconX = posX + stat.iconSize * (countStatus%5)
+                var iconY = posY + sizeY + stat.iconSize * (countStatus/5)
+                g.drawImage(img, iconX, iconY, null)
+                countStatus += 1
+            }
         }
 
 

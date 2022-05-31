@@ -5,7 +5,7 @@ class DamageCard extends AttackCard {
     needsTarget = true
     originalCost = 1
 
-    def power : Int = (5 + Player.status.get(StrengthStatus))
+    def power : Int = ((5 + Player.status.get(StrengthStatus)) * (if (Player.status.get(WeaknessStatus) > 0) 0.5f else 1f)).toInt
     
 
     override def whenCasted (target : Character) : Unit = {

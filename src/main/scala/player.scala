@@ -44,18 +44,19 @@ object Player extends Character ("Player.png") {
 
     override def display (g : Graphics) : Unit = {
         super.display(g)
+
         g.setColor(Color.BLACK)
-        g.drawRect(posX, posY + sizeY + 20, sizeX, 20)
+        g.drawRect(MyFrame.sizeX/10, 7*MyFrame.sizeY/8, sizeX, 20)
         g.setColor(Color.CYAN)
-        g.fillRect(posX, posY + sizeY + 20, (sizeX.toDouble*manaRate).toInt, 20)
+        g.fillRect(MyFrame.sizeX/10, 7*MyFrame.sizeY/8, (sizeX.toDouble*manaRate).toInt, 20)
 
 
         g.setColor(Color.BLACK)
         g.setFont(new Font("TimesRoman", Font.PLAIN, 16))
         var metrics = g.getFontMetrics
         var text = mana.toString + "/" + manaMax.toString
-        var strX = posX + sizeX/2 - metrics.stringWidth(text)/2
-        var strY = posY +sizeY + 30 - metrics.getHeight/2 + metrics.getAscent
+        var strX = MyFrame.sizeX/10 + sizeX/2 - metrics.stringWidth(text)/2
+        var strY = 7*MyFrame.sizeY/8 + 10 - metrics.getHeight/2 + metrics.getAscent
         g.drawString(text, strX, strY)
 
         hand.foreach(x => x.display(g))

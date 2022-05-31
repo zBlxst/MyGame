@@ -1,7 +1,8 @@
 import java.util.concurrent.TimeUnit
 import java.awt.image.BufferedImage
-import java.awt.{Graphics, Image, Graphics2D, Color, RenderingHints}
+import java.awt.{Graphics, Image, Graphics2D, Color}
 import java.awt.geom.AffineTransform
+import com.sun.tools.javac.util.ListBuffer
 
 object Utils {
     def loadImage (name : String) : BufferedImage = {
@@ -42,9 +43,18 @@ object Utils {
 }
 
         
-    def firstSatisfiedList[T] (li : List[T], f : T => Boolean) : Int = {
+    def firstSatisfied[T] (li : List[T], f : T => Boolean) : Int = {
         for (i <- 0 until li.size) {
             if (f(li(i))) {
+                return i
+            }
+        }
+        return -1
+    }
+
+    def firstSatisfied[T] (buff : ListBuffer[T], f : T => Boolean) : Int = {
+        for (i <- 0 until buff.size) {
+            if (f(buff.toList.get(i))) {
                 return i
             }
         }
@@ -75,19 +85,13 @@ object Utils {
 
 }
 
-
-object Repaintable {
-    var allInstances : List[Repaintable] = List()
-}
-
 trait Repaintable {
-    Repaintable.allInstances = this :: Repaintable.allInstances
     def repaint : Unit
 }
 object Repainter extends Thread {
     override def run : Unit = {
         while (true) {
-            Repaintable.allInstances.foreach(x => x.repaint)
+            MyFrame.getContentPane.repaint
             TimeUnit.MILLISECONDS.sleep(10)
         }
     }

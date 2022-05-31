@@ -8,7 +8,7 @@ object Enemy1 extends Enemy ("ennemy.png") {
     hpMax = 100
     hp = 100
 
-    allActions = List("Attack 10", "Attack 5", "Shield 5")
+    allActions = List(List("Attack", "10"), List("Attack", "5"), List("Shield", "5"))
 }
 
 object Enemy2 extends Enemy ("ennemy.png") {
@@ -21,5 +21,5 @@ object Enemy2 extends Enemy ("ennemy.png") {
     hpMax = 20
     hp = 20
 
-    allActions = List("Attack 5", "Attack 3", "Shield 5")
+    allActions = List(List("Debuff", "Weakness", "3"), List("Attack", "5"), List("Shield", "5"))
 }
